@@ -43,6 +43,8 @@
             signup_confirmPass = new TextBox();
             label1 = new Label();
             close = new Label();
+            signup_name = new TextBox();
+            label7 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -118,7 +120,7 @@
             signup_showPass.AutoSize = true;
             signup_showPass.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             signup_showPass.ForeColor = Color.FromArgb(61, 64, 91);
-            signup_showPass.Location = new Point(411, 376);
+            signup_showPass.Location = new Point(411, 414);
             signup_showPass.Name = "signup_showPass";
             signup_showPass.Size = new Size(191, 34);
             signup_showPass.TabIndex = 15;
@@ -135,7 +137,7 @@
             signup_btn.FlatStyle = FlatStyle.Flat;
             signup_btn.Font = new Font("Source Code Pro", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             signup_btn.ForeColor = Color.FromArgb(61, 64, 91);
-            signup_btn.Location = new Point(432, 438);
+            signup_btn.Location = new Point(432, 470);
             signup_btn.Name = "signup_btn";
             signup_btn.Size = new Size(291, 46);
             signup_btn.TabIndex = 14;
@@ -146,7 +148,7 @@
             // signup_password
             // 
             signup_password.Font = new Font("Source Code Pro", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            signup_password.Location = new Point(411, 250);
+            signup_password.Location = new Point(411, 290);
             signup_password.Name = "signup_password";
             signup_password.PasswordChar = '*';
             signup_password.Size = new Size(358, 33);
@@ -157,7 +159,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Source Code Pro", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.FromArgb(61, 64, 91);
-            label4.Location = new Point(411, 221);
+            label4.Location = new Point(411, 252);
             label4.Name = "label4";
             label4.Size = new Size(92, 26);
             label4.TabIndex = 12;
@@ -166,7 +168,7 @@
             // signup_email
             // 
             signup_email.Font = new Font("Source Code Pro", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            signup_email.Location = new Point(411, 173);
+            signup_email.Location = new Point(411, 210);
             signup_email.Name = "signup_email";
             signup_email.Size = new Size(358, 33);
             signup_email.TabIndex = 11;
@@ -176,7 +178,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Source Code Pro", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.FromArgb(61, 64, 91);
-            label3.Location = new Point(411, 144);
+            label3.Location = new Point(411, 171);
             label3.Name = "label3";
             label3.Size = new Size(62, 26);
             label3.TabIndex = 10;
@@ -187,7 +189,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Source Code Pro", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.FromArgb(61, 64, 91);
-            label2.Location = new Point(432, 71);
+            label2.Location = new Point(432, 54);
             label2.Name = "label2";
             label2.Size = new Size(113, 34);
             label2.TabIndex = 9;
@@ -196,7 +198,7 @@
             // signup_confirmPass
             // 
             signup_confirmPass.Font = new Font("Source Code Pro", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            signup_confirmPass.Location = new Point(411, 326);
+            signup_confirmPass.Location = new Point(411, 375);
             signup_confirmPass.Name = "signup_confirmPass";
             signup_confirmPass.PasswordChar = '*';
             signup_confirmPass.Size = new Size(358, 33);
@@ -207,7 +209,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Source Code Pro", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(61, 64, 91);
-            label1.Location = new Point(411, 297);
+            label1.Location = new Point(411, 335);
             label1.Name = "label1";
             label1.Size = new Size(172, 26);
             label1.TabIndex = 16;
@@ -227,12 +229,33 @@
             close.Text = "X";
             close.Click += Close_Click;
             // 
+            // signup_name
+            // 
+            signup_name.Font = new Font("Source Code Pro", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            signup_name.Location = new Point(411, 135);
+            signup_name.Name = "signup_name";
+            signup_name.Size = new Size(358, 33);
+            signup_name.TabIndex = 20;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Source Code Pro", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = Color.FromArgb(61, 64, 91);
+            label7.Location = new Point(411, 97);
+            label7.Name = "label7";
+            label7.Size = new Size(52, 26);
+            label7.TabIndex = 19;
+            label7.Text = "Name";
+            // 
             // RegistrationForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(244, 241, 222);
             ClientSize = new Size(831, 553);
+            Controls.Add(signup_name);
+            Controls.Add(label7);
             Controls.Add(close);
             Controls.Add(signup_confirmPass);
             Controls.Add(label1);
@@ -272,5 +295,7 @@
         private TextBox signup_confirmPass;
         private Label label1;
         private Label close;
+        private TextBox signup_name;
+        private Label label7;
     }
 }

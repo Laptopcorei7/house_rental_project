@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="house_directory\" />
   </ItemGroup>
 
   <ItemGroup>

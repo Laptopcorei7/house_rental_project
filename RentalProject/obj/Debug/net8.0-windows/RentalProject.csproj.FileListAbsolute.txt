@@ -55,3 +55,9 @@ D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\refint\Rental
 D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.pdb
 D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.genruntimeconfig.cache
 D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\ref\RentalProject.dll
+D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.admin_addUser.resources
+D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.admin_addHouses.resources
+D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.staffMainForm.resources
+D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.staff_bookHouse.resources
+D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.clientInfo.resources
+D:\wsl\house_rental_project\RentalProject\obj\Debug\net8.0-windows\RentalProject.admin_customer.resources

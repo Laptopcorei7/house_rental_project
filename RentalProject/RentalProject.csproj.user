@@ -4,13 +4,31 @@
     <Compile Update="AdminMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="admin_addHouses.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="admin_addUser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="admin_customer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="admin_dashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="clientInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="staff_bookHouse.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="LoginFile.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="RegistrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="staffMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

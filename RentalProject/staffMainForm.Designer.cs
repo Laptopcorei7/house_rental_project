@@ -1,6 +1,6 @@
 ﻿namespace RentalProject
 {
-    partial class AdminMainForm
+    partial class staffMainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -34,15 +34,13 @@
             panel2 = new Panel();
             logout_btn = new Button();
             cutomers_btn = new Button();
-            addHouse_btn = new Button();
             addUser_btn = new Button();
             dashboard_btn = new Button();
             adminWelcome = new Label();
             pictureBox1 = new PictureBox();
             panel3 = new Panel();
             admin_dashboard1 = new admin_dashboard();
-            admin_addUser1 = new admin_addUser();
-            admin_addHouses1 = new admin_addHouses();
+            staff_bookHouse1 = new staff_bookHouse();
             admin_customer1 = new admin_customer();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -59,7 +57,7 @@
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1376, 51);
-            panel1.TabIndex = 0;
+            panel1.TabIndex = 1;
             // 
             // label2
             // 
@@ -90,7 +88,6 @@
             panel2.BackColor = Color.FromArgb(212, 163, 115);
             panel2.Controls.Add(logout_btn);
             panel2.Controls.Add(cutomers_btn);
-            panel2.Controls.Add(addHouse_btn);
             panel2.Controls.Add(addUser_btn);
             panel2.Controls.Add(dashboard_btn);
             panel2.Controls.Add(adminWelcome);
@@ -98,8 +95,8 @@
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 51);
             panel2.Name = "panel2";
-            panel2.Size = new Size(320, 814);
-            panel2.TabIndex = 1;
+            panel2.Size = new Size(290, 810);
+            panel2.TabIndex = 2;
             // 
             // logout_btn
             // 
@@ -110,7 +107,7 @@
             logout_btn.FlatStyle = FlatStyle.Flat;
             logout_btn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             logout_btn.ForeColor = Color.FromArgb(61, 64, 91);
-            logout_btn.Location = new Point(44, 755);
+            logout_btn.Location = new Point(28, 736);
             logout_btn.Name = "logout_btn";
             logout_btn.Size = new Size(241, 47);
             logout_btn.TabIndex = 8;
@@ -128,31 +125,13 @@
             cutomers_btn.FlatStyle = FlatStyle.Flat;
             cutomers_btn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cutomers_btn.ForeColor = Color.FromArgb(61, 64, 91);
-            cutomers_btn.Location = new Point(44, 459);
+            cutomers_btn.Location = new Point(28, 391);
             cutomers_btn.Name = "cutomers_btn";
             cutomers_btn.Size = new Size(241, 47);
             cutomers_btn.TabIndex = 7;
             cutomers_btn.Text = "Customers";
             cutomers_btn.UseVisualStyleBackColor = false;
             cutomers_btn.Click += cutomers_btn_Click;
-            // 
-            // addHouse_btn
-            // 
-            addHouse_btn.BackColor = Color.FromArgb(212, 163, 115);
-            addHouse_btn.Cursor = Cursors.Hand;
-            addHouse_btn.FlatAppearance.BorderSize = 0;
-            addHouse_btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(129, 178, 154);
-            addHouse_btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(129, 178, 154);
-            addHouse_btn.FlatStyle = FlatStyle.Flat;
-            addHouse_btn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            addHouse_btn.ForeColor = Color.FromArgb(61, 64, 91);
-            addHouse_btn.Location = new Point(44, 389);
-            addHouse_btn.Name = "addHouse_btn";
-            addHouse_btn.Size = new Size(241, 47);
-            addHouse_btn.TabIndex = 6;
-            addHouse_btn.Text = "Add House";
-            addHouse_btn.UseVisualStyleBackColor = false;
-            addHouse_btn.Click += addHouse_btn_Click;
             // 
             // addUser_btn
             // 
@@ -164,11 +143,11 @@
             addUser_btn.FlatStyle = FlatStyle.Flat;
             addUser_btn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             addUser_btn.ForeColor = Color.FromArgb(61, 64, 91);
-            addUser_btn.Location = new Point(44, 318);
+            addUser_btn.Location = new Point(28, 318);
             addUser_btn.Name = "addUser_btn";
             addUser_btn.Size = new Size(241, 47);
             addUser_btn.TabIndex = 5;
-            addUser_btn.Text = "Add User";
+            addUser_btn.Text = "Book House";
             addUser_btn.UseVisualStyleBackColor = false;
             addUser_btn.Click += addUser_btn_Click;
             // 
@@ -182,7 +161,7 @@
             dashboard_btn.FlatStyle = FlatStyle.Flat;
             dashboard_btn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dashboard_btn.ForeColor = Color.FromArgb(61, 64, 91);
-            dashboard_btn.Location = new Point(44, 248);
+            dashboard_btn.Location = new Point(28, 249);
             dashboard_btn.Name = "dashboard_btn";
             dashboard_btn.Size = new Size(241, 47);
             dashboard_btn.TabIndex = 2;
@@ -215,61 +194,52 @@
             // 
             // panel3
             // 
-            panel3.BackColor = Color.FromArgb(244, 241, 222);
             panel3.Controls.Add(admin_dashboard1);
-            panel3.Controls.Add(admin_addUser1);
-            panel3.Controls.Add(admin_addHouses1);
+            panel3.Controls.Add(staff_bookHouse1);
             panel3.Controls.Add(admin_customer1);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(320, 51);
+            panel3.Location = new Point(290, 51);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1056, 814);
-            panel3.TabIndex = 2;
+            panel3.Size = new Size(1086, 810);
+            panel3.TabIndex = 3;
             // 
             // admin_dashboard1
             // 
             admin_dashboard1.BackColor = Color.FromArgb(244, 241, 222);
             admin_dashboard1.Location = new Point(0, 0);
             admin_dashboard1.Name = "admin_dashboard1";
-            admin_dashboard1.Size = new Size(1056, 811);
-            admin_dashboard1.TabIndex = 3;
+            admin_dashboard1.Size = new Size(1086, 810);
+            admin_dashboard1.TabIndex = 9;
             // 
-            // admin_addUser1
+            // staff_bookHouse1
             // 
-            admin_addUser1.BackColor = Color.FromArgb(244, 241, 222);
-            admin_addUser1.Location = new Point(0, 0);
-            admin_addUser1.Name = "admin_addUser1";
-            admin_addUser1.Size = new Size(1056, 814);
-            admin_addUser1.TabIndex = 2;
-            // 
-            // admin_addHouses1
-            // 
-            admin_addHouses1.BackColor = Color.FromArgb(244, 241, 222);
-            admin_addHouses1.Location = new Point(3, 0);
-            admin_addHouses1.Name = "admin_addHouses1";
-            admin_addHouses1.Size = new Size(1050, 811);
-            admin_addHouses1.TabIndex = 1;
+            staff_bookHouse1.BackColor = Color.FromArgb(244, 241, 222);
+            staff_bookHouse1.Location = new Point(0, 0);
+            staff_bookHouse1.Name = "staff_bookHouse1";
+            staff_bookHouse1.Size = new Size(1086, 810);
+            staff_bookHouse1.TabIndex = 1;
             // 
             // admin_customer1
             // 
             admin_customer1.BackColor = Color.FromArgb(244, 241, 222);
-            admin_customer1.Location = new Point(0, 0);
+            admin_customer1.Location = new Point(3, 0);
             admin_customer1.Name = "admin_customer1";
-            admin_customer1.Size = new Size(1053, 811);
+            admin_customer1.Size = new Size(1080, 810);
             admin_customer1.TabIndex = 0;
             // 
-            // AdminMainForm
+            // staffMainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1376, 865);
+            BackColor = Color.FromArgb(244, 241, 222);
+            ClientSize = new Size(1376, 861);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "AdminMainForm";
+            Name = "staffMainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "AdminMainForm";
+            Text = "staffMainForm";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -282,19 +252,17 @@
         #endregion
 
         private Panel panel1;
-        private Label close;
         private Label label2;
+        private Label close;
         private Panel panel2;
-        private PictureBox pictureBox1;
-        private Button dashboard_btn;
-        private Label adminWelcome;
         private Button logout_btn;
         private Button cutomers_btn;
-        private Button addHouse_btn;
         private Button addUser_btn;
+        private Button dashboard_btn;
+        private Label adminWelcome;
+        private PictureBox pictureBox1;
         private Panel panel3;
-        private admin_addUser admin_addUser1;
-        private admin_addHouses admin_addHouses1;
+        private staff_bookHouse staff_bookHouse1;
         private admin_customer admin_customer1;
         private admin_dashboard admin_dashboard1;
     }
