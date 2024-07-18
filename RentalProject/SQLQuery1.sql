@@ -12,7 +12,7 @@
 
 
 SELECT * FROM users
-
+DROP TABLE users
 
 
 CREATE TABLE addHouse
