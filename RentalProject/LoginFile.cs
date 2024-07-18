@@ -70,12 +70,32 @@ namespace RentalProject
 
                         if(table.Rows.Count != 0)
                         {
-                            MessageBox.Show("Login Successfully", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            string selectRole = "SELECT role FROM users WHERE email = @userEmail and password = @pass";
 
-                            AdminMainForm adminMainForm = new AdminMainForm();
-                            adminMainForm.Show();
+                            using(SqlCommand getRole = new SqlCommand(selectRole, connect))
+                            {
+                                getRole.Parameters.AddWithValue("@userEmail", login_email.Text.Trim());
+                                getRole.Parameters.AddWithValue("@pass", login_password.Text.Trim());
 
-                            this.Hide();
+                                string userRole = getRole.ExecuteScalar() as string;
+
+                                if(userRole == "Admin")
+                                {
+                                    AdminMainForm adminMainForm = new AdminMainForm();
+                                    adminMainForm.Show();
+
+                                    this.Hide();
+                                }
+                                else if(userRole == "Staff")
+                                {
+                                    staffMainForm staffForm = new staffMainForm();
+                                    staffForm.Show();
+
+                                    this.Hide();
+                                }
+                            }
+
+                            
                         }
                         else
                         {

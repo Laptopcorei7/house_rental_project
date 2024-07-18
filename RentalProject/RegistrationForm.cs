@@ -45,7 +45,7 @@ namespace RentalProject
 
 		private void signup_btn_Click(object sender, EventArgs e)
 		{
-			if (signup_email.Text == "" || signup_password.Text == "" || signup_confirmPass.Text == "")
+			if (signup_name.Text == "" || signup_email.Text == "" || signup_password.Text == "" || signup_confirmPass.Text == "")
 			{
 				MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
@@ -67,8 +67,8 @@ namespace RentalProject
 
 						if (table.Rows.Count != 0)
 						{
-							string tempEmail = signup_email.Text.Substring(0, 1).ToUpper() + signup_email.Text.Substring(1);
-							MessageBox.Show($"{tempEmail} already exists", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							string tempName = signup_name.Text.Substring(0, 1).ToUpper() + signup_name.Text.Substring(1);
+							MessageBox.Show($"{tempName} already exists", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}else if(signup_password.Text.Length < 8)
 						{
 							MessageBox.Show("Invalid Password", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -79,12 +79,13 @@ namespace RentalProject
 						}
 						else
 						{
-							string query = "INSERT INTO users (email, password, role, status, date_registered)" +
-								"VALUES(@userEmail, @pass, @role, @status, @regDate)";
+							string query = "INSERT INTO users (name, email, password, role, status, date_registered)" +
+								"VALUES(@name, @userEmail, @pass, @role, @status, @regDate)";
 
 							using(SqlCommand cmd  = new SqlCommand(query, connect))
 							{
-								cmd.Parameters.AddWithValue("@userEmail", signup_email.Text.Trim());
+                                cmd.Parameters.AddWithValue("@name", signup_name.Text.Trim());
+                                cmd.Parameters.AddWithValue("@userEmail", signup_email.Text.Trim());
 								cmd.Parameters.AddWithValue("@pass", signup_password.Text.Trim());
 								cmd.Parameters.AddWithValue("@role", "Staff");
 								cmd.Parameters.AddWithValue("@status", "Active");
