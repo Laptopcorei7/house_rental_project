@@ -23,11 +23,12 @@ namespace RentalProject
         public string Image { get; set; }
         public DateTime Date_Available { get; set; }
         public string Status { get; set; }
+
         
 
         public class DatabaseAccess
         {
-            private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabe\\OneDrive\\Documents\\house.mdf;Integrated Security=True;Connect Timeout=30";
+            private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
 
             public List<houseData> GetHouseDataList()
             {

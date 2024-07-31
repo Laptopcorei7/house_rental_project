@@ -181,7 +181,7 @@
             bookHouse_clearBtn.FlatStyle = FlatStyle.Flat;
             bookHouse_clearBtn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             bookHouse_clearBtn.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_clearBtn.Location = new Point(26, 606);
+            bookHouse_clearBtn.Location = new Point(26, 622);
             bookHouse_clearBtn.Name = "bookHouse_clearBtn";
             bookHouse_clearBtn.Size = new Size(356, 56);
             bookHouse_clearBtn.TabIndex = 34;

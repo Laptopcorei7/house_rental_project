@@ -32,6 +32,7 @@
             label2 = new Label();
             close = new Label();
             panel2 = new Panel();
+            client_print = new Button();
             clientInfo_clearBtn = new Button();
             clientInfo_bookBtn = new Button();
             clientInfo_gender = new ComboBox();
@@ -86,6 +87,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(212, 163, 115);
+            panel2.Controls.Add(client_print);
             panel2.Controls.Add(clientInfo_clearBtn);
             panel2.Controls.Add(clientInfo_bookBtn);
             panel2.Controls.Add(clientInfo_gender);
@@ -103,6 +105,23 @@
             panel2.Size = new Size(917, 536);
             panel2.TabIndex = 3;
             // 
+            // client_print
+            // 
+            client_print.BackColor = Color.FromArgb(233, 216, 166);
+            client_print.FlatAppearance.BorderSize = 0;
+            client_print.FlatAppearance.MouseDownBackColor = Color.FromArgb(129, 178, 154);
+            client_print.FlatAppearance.MouseOverBackColor = Color.FromArgb(129, 178, 154);
+            client_print.FlatStyle = FlatStyle.Flat;
+            client_print.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            client_print.ForeColor = Color.FromArgb(61, 64, 91);
+            client_print.Location = new Point(310, 424);
+            client_print.Name = "client_print";
+            client_print.Size = new Size(289, 62);
+            client_print.TabIndex = 28;
+            client_print.Text = "Print";
+            client_print.UseVisualStyleBackColor = false;
+            client_print.Click += client_print_Click;
+            // 
             // clientInfo_clearBtn
             // 
             clientInfo_clearBtn.BackColor = Color.FromArgb(233, 216, 166);
@@ -112,9 +131,9 @@
             clientInfo_clearBtn.FlatStyle = FlatStyle.Flat;
             clientInfo_clearBtn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             clientInfo_clearBtn.ForeColor = Color.FromArgb(61, 64, 91);
-            clientInfo_clearBtn.Location = new Point(501, 424);
+            clientInfo_clearBtn.Location = new Point(627, 424);
             clientInfo_clearBtn.Name = "clientInfo_clearBtn";
-            clientInfo_clearBtn.Size = new Size(320, 62);
+            clientInfo_clearBtn.Size = new Size(264, 62);
             clientInfo_clearBtn.TabIndex = 27;
             clientInfo_clearBtn.Text = "Clear";
             clientInfo_clearBtn.UseVisualStyleBackColor = false;
@@ -129,9 +148,9 @@
             clientInfo_bookBtn.FlatStyle = FlatStyle.Flat;
             clientInfo_bookBtn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             clientInfo_bookBtn.ForeColor = Color.FromArgb(61, 64, 91);
-            clientInfo_bookBtn.Location = new Point(88, 424);
+            clientInfo_bookBtn.Location = new Point(22, 424);
             clientInfo_bookBtn.Name = "clientInfo_bookBtn";
-            clientInfo_bookBtn.Size = new Size(320, 62);
+            clientInfo_bookBtn.Size = new Size(269, 62);
             clientInfo_bookBtn.TabIndex = 26;
             clientInfo_bookBtn.Text = "Book Now";
             clientInfo_bookBtn.UseVisualStyleBackColor = false;
@@ -241,6 +260,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoValidate = AutoValidate.EnablePreventFocusChange;
             BackColor = Color.FromArgb(244, 241, 222);
             ClientSize = new Size(961, 616);
             Controls.Add(panel2);
@@ -249,7 +269,6 @@
             Name = "clientInfo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "clientInfo";
-            TopMost = true;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -275,5 +294,6 @@
         private TextBox clientInfo_name;
         private Button clientInfo_clearBtn;
         private Button clientInfo_bookBtn;
+        private Button client_print;
     }
 }

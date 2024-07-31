@@ -259,7 +259,7 @@
             // 
             addHouse_status.Font = new Font("Source Code Pro", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             addHouse_status.FormattingEnabled = true;
-            addHouse_status.Items.AddRange(new object[] { "Active", "Inactive" });
+            addHouse_status.Items.AddRange(new object[] { "Available", "Unavailable" });
             addHouse_status.Location = new Point(529, 229);
             addHouse_status.Name = "addHouse_status";
             addHouse_status.Size = new Size(151, 31);

@@ -19,6 +19,9 @@
     <Compile Update="clientInfo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="printPreviewMainFrom.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="staff_bookHouse.cs">
       <SubType>UserControl</SubType>
     </Compile>
