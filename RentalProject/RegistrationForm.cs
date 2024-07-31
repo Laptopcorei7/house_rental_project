@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;   
-
+using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 namespace RentalProject
 {
 	public partial class RegistrationForm : Form
 	{
-		private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabe\\OneDrive\\Documents\\house.mdf;Integrated Security=True;Connect Timeout=30";
-		public RegistrationForm()
+        private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
+        public RegistrationForm()
 		{
 			InitializeComponent();
 		}
@@ -43,7 +43,13 @@ namespace RentalProject
 			this.Hide();
 		}
 
-		private void signup_btn_Click(object sender, EventArgs e)
+        private bool IsValidEmail(string email)
+        {
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, emailPattern);
+        }
+
+        private void signup_btn_Click(object sender, EventArgs e)
 		{
 			if (signup_name.Text == "" || signup_email.Text == "" || signup_password.Text == "" || signup_confirmPass.Text == "")
 			{
@@ -69,7 +75,13 @@ namespace RentalProject
 						{
 							string tempName = signup_name.Text.Substring(0, 1).ToUpper() + signup_name.Text.Substring(1);
 							MessageBox.Show($"{tempName} already exists", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}else if(signup_password.Text.Length < 8)
+						}
+                        else if (!IsValidEmail(signup_email.Text))
+                        {
+                            MessageBox.Show("Please enter a valid email address.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        else if(signup_password.Text.Length < 8)
 						{
 							MessageBox.Show("Invalid Password", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}

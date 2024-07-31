@@ -9,7 +9,7 @@
     date_registered DATE NOT NULL
 );
 
-
+INSERT INTO users(name, email, password, role, status, date_registered) VALUES('admin', 'admin@example.com', 'admin12345', 'Admin', 'Active', '2024-07-23')
 
 SELECT * FROM users
 DROP TABLE users
@@ -56,3 +56,5 @@ CREATE TABLE customers
 
 SELECT * FROM customers
 DROP TABLE customers
+
+

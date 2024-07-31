@@ -92,7 +92,7 @@ namespace RentalProject
             {
                 MessageBox.Show("Please fill all correctly", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (bookHouse_status.Text != "Active")
+            else if (bookHouse_status.Text != "Available")
             {
                 MessageBox.Show("The house is unavailable", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -102,26 +102,14 @@ namespace RentalProject
                 houseData1.fromDate = bookHouse_start.Value;
                 houseData1.toDate = bookHouse_end.Value;
                 houseData1.rentAmount = bookHouse_total.Text;
+                houseData1.rent = bookHouse_rent.Text;
+                houseData1.deposit = bookHouse_deposit.Text;
                 Form formbg = new Form();
 
                 try
                 {
                     using (clientInfo ciForm = new clientInfo())
                     {
-
-                        formbg.StartPosition = FormStartPosition.Manual;
-                        formbg.FormBorderStyle = FormBorderStyle.None;
-                        formbg.Opacity = 0.8;
-                        formbg.BackColor = Color.Black;
-                        formbg.Size = new Size(1376, 861);
-                        formbg.TopMost = true;
-                        formbg.Show();
-
-                        int xPos = (Screen.PrimaryScreen.Bounds.Width - formbg.Width) / 2;
-                        int yPos = (Screen.PrimaryScreen.Bounds.Height - formbg.Height) / 2;
-                        formbg.Location = new Point(xPos, yPos);
-
-
                         ciForm.Owner = formbg;
                         ciForm.ShowDialog();
                     }
