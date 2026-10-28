@@ -16,12 +16,10 @@ namespace RentalProject
 
     public partial class admin_addHouses : UserControl
     {
-        private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
         public admin_addHouses()
         {
             InitializeComponent();
-
-            displayHouseData();
+            // No data loading here: the VS designer runs this constructor. The main form calls refreshData().
         }
 
         public void displayHouseData()
@@ -48,6 +46,7 @@ namespace RentalProject
             if (string.IsNullOrEmpty(addHouse_ID.Text) || string.IsNullOrEmpty(addHouse_name.Text) ||
                 string.IsNullOrEmpty(addHouse_description.Text) || string.IsNullOrEmpty(addHouse_address.Text) || addHouse_numOfBedrooms.Value == 0 ||
                 addHouse_numOfBathrooms.Value == 0 || string.IsNullOrEmpty(addHouse_rentAmount.Text) ||
+                string.IsNullOrEmpty(addHouse_dailyRent.Text) ||
                 string.IsNullOrEmpty(addHouse_depositAmount.Text) || addHouse_availableDate.Value == DateTimePicker.MinimumDateTime ||
                 addHouse_status.SelectedIndex == -1 || addHouse_picture.Image == null)
             {
@@ -59,17 +58,32 @@ namespace RentalProject
             }
         }
 
+        // Reads the three money boxes. Shows a message and returns false if any is not a positive number.
+        private bool TryReadPrices(out decimal rent, out decimal dailyRent, out decimal deposit)
+        {
+            dailyRent = deposit = 0;
+            if (decimal.TryParse(addHouse_rentAmount.Text.Trim(), out rent) && rent > 0 &&
+                decimal.TryParse(addHouse_dailyRent.Text.Trim(), out dailyRent) && dailyRent > 0 &&
+                decimal.TryParse(addHouse_depositAmount.Text.Trim(), out deposit) && deposit >= 0)
+            {
+                return true;
+            }
+            MessageBox.Show("Monthly rent and daily rent must be numbers above 0, and the deposit a number of 0 or more.",
+                "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
+        }
+
         private void addHouseBtn_Click(object sender, EventArgs e)
         {
             if (isEmpty())
             {
                 MessageBox.Show("Please fill all blank fields.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else
+            else if (TryReadPrices(out decimal rent, out decimal dailyRent, out decimal deposit))
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(conn))
+                    using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                     {
                         connect.Open();
 
@@ -91,8 +105,8 @@ namespace RentalProject
                             else
                             {
                                 string insertData = "INSERT INTO addHouse (house_id, house_name, description, address, " +
-                                    "number_of_bedrooms, number_of_bathrooms, rent_amount, deposit_amount, image_path, date_available, status)" +
-                                    "VALUES(@houseID, @name, @description, @address, @bedrooms, @bathrooms, @rent, @deposit, @path, @date_avail, @status)";
+                                    "number_of_bedrooms, number_of_bathrooms, rent_amount, daily_rent, deposit_amount, image_path, date_available, status)" +
+                                    "VALUES(@houseID, @name, @description, @address, @bedrooms, @bathrooms, @rent, @daily, @deposit, @path, @date_avail, @status)";
 
                                 string path = Path.Combine("D:\\wsl\\house_rental_project\\RentalProject\\house_directory\\" + addHouse_ID.Text.Trim() + ".jpg");
 
@@ -113,8 +127,9 @@ namespace RentalProject
                                     cmd.Parameters.AddWithValue("@address", addHouse_address.Text.Trim());
                                     cmd.Parameters.AddWithValue("@bedrooms", addHouse_numOfBedrooms.Value);
                                     cmd.Parameters.AddWithValue("@bathrooms", addHouse_numOfBathrooms.Value);
-                                    cmd.Parameters.AddWithValue("@rent", addHouse_rentAmount.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@deposit", addHouse_depositAmount.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@rent", rent);
+                                    cmd.Parameters.AddWithValue("@daily", dailyRent);
+                                    cmd.Parameters.AddWithValue("@deposit", deposit);
                                     cmd.Parameters.AddWithValue("@path", path);
                                     cmd.Parameters.AddWithValue("@date_avail", addHouse_availableDate.Value);
                                     cmd.Parameters.AddWithValue("@status", addHouse_status.SelectedItem.ToString());
@@ -173,19 +188,19 @@ namespace RentalProject
             {
                 MessageBox.Show("Please select item first", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else
+            else if (TryReadPrices(out decimal rent, out decimal dailyRent, out decimal deposit))
             {
                 try
                 {
                     if (MessageBox.Show("Are you sure you want to UPDATE ID: " + id + "?", "Confirmation Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        using (SqlConnection connect = new SqlConnection(conn))
+                        using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                         {
                             connect.Open();
 
                             string updateData = "UPDATE addhouse SET house_id = @houseID, house_name = @name, description = @description, address = @address, " +
-                                "number_of_bedrooms = @bedrooms, number_of_bathrooms = @bathrooms, rent_amount = @rent, deposit_amount = @deposit," +
+                                "number_of_bedrooms = @bedrooms, number_of_bathrooms = @bathrooms, rent_amount = @rent, daily_rent = @daily, deposit_amount = @deposit," +
                                 "date_available = @date_avail, status = @status, date_update = @update WHERE id = @id";
 
                             using (SqlCommand cmd = new SqlCommand(updateData, connect))
@@ -197,8 +212,9 @@ namespace RentalProject
                                 cmd.Parameters.AddWithValue("@address", addHouse_address.Text.Trim());
                                 cmd.Parameters.AddWithValue("@bedrooms", addHouse_numOfBedrooms.Value);
                                 cmd.Parameters.AddWithValue("@bathrooms", addHouse_numOfBathrooms.Value);
-                                cmd.Parameters.AddWithValue("@rent", decimal.Parse(addHouse_rentAmount.Text.Trim()));
-                                cmd.Parameters.AddWithValue("@deposit", decimal.Parse(addHouse_depositAmount.Text.Trim()));
+                                cmd.Parameters.AddWithValue("@rent", rent);
+                                cmd.Parameters.AddWithValue("@daily", dailyRent);
+                                cmd.Parameters.AddWithValue("@deposit", deposit);
                                 cmd.Parameters.AddWithValue("@date_avail", addHouse_availableDate.Value);
                                 cmd.Parameters.AddWithValue("@status", addHouse_status.SelectedItem.ToString());
 
@@ -233,22 +249,21 @@ namespace RentalProject
         {
             if (e.RowIndex != -1)
             {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                houseData house = (houseData)dataGridView1.Rows[e.RowIndex].DataBoundItem;
 
-                id = (int)row.Cells[0].Value;
-                addHouse_ID.Text = row.Cells[1].Value.ToString();
-                addHouse_name.Text = row.Cells[2].Value.ToString();
-                addHouse_description.Text = row.Cells[3].Value.ToString();
-                addHouse_address.Text = row.Cells[4].Value.ToString();
-                addHouse_numOfBedrooms.Text = row.Cells[5].Value.ToString();
-                addHouse_numOfBathrooms.Text = row.Cells[6].Value.ToString();
-                addHouse_rentAmount.Text = row.Cells[7].Value.ToString();
-                addHouse_depositAmount.Text = row.Cells[8].Value.ToString();
-                addHouse_picture.ImageLocation = row.Cells[9].Value.ToString();
-                addHouse_availableDate.Text = row.Cells[10].Value.ToString();
-                addHouse_status.Text = row.Cells[11].Value.ToString();
-
-
+                id = house.ID;
+                addHouse_ID.Text = house.HouseId;
+                addHouse_name.Text = house.Name;
+                addHouse_description.Text = house.Description;
+                addHouse_address.Text = house.Address;
+                addHouse_numOfBedrooms.Value = house.Bedrooms;
+                addHouse_numOfBathrooms.Value = house.Bathrooms;
+                addHouse_rentAmount.Text = house.Rent.ToString("0.00");
+                addHouse_dailyRent.Text = house.DailyRent.ToString("0.00");
+                addHouse_depositAmount.Text = house.Deposit.ToString("0.00");
+                addHouse_picture.ImageLocation = house.Image;
+                addHouse_availableDate.Value = house.Date_Available;
+                addHouse_status.Text = house.Status;
 
             }
         }
@@ -262,6 +277,7 @@ namespace RentalProject
             addHouse_numOfBedrooms.Value = addHouse_numOfBedrooms.Minimum;
             addHouse_numOfBathrooms.Value = addHouse_numOfBathrooms.Minimum;
             addHouse_rentAmount.Text = "";
+            addHouse_dailyRent.Text = "";
             addHouse_depositAmount.Text = "";
             addHouse_picture.Image = null;
             addHouse_availableDate.Value = DateTime.Now;
@@ -286,7 +302,7 @@ namespace RentalProject
                     if (MessageBox.Show("Are you sure you want to DELETE ID: " + id + "?", "Confirmation Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        using (SqlConnection connect = new SqlConnection(conn))
+                        using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                         {
                             connect.Open();
 

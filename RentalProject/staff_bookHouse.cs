@@ -17,7 +17,8 @@ namespace RentalProject
         public staff_bookHouse()
         {
             InitializeComponent();
-            displayHouse();
+            bookHouse_plan.SelectedItem = "Monthly";
+            // No data loading here: the VS designer runs this constructor. The main form calls refreshData().
         }
 
         public void displayHouse()
@@ -38,99 +39,89 @@ namespace RentalProject
             displayHouse();
         }
 
-        private int getID = 0;
-        private decimal regprice;
+        private houseData? selectedHouse;
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
             {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                houseData house = (houseData)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                selectedHouse = house;
 
-                getID = (int)row.Cells[0].Value;
-                bookHouse_houseID.Text = row.Cells[1].Value.ToString();
-                bookHouse_name.Text = row.Cells[2].Value.ToString();
-                bookHouse_address.Text = row.Cells[4].Value.ToString();
-                bookHouse_rent.Text = row.Cells[7].Value.ToString();
-                bookHouse_deposit.Text = row.Cells[8].Value.ToString();
-                bookHouse_status.Text = row.Cells[11].Value.ToString();
+                bookHouse_houseID.Text = house.HouseId;
+                bookHouse_name.Text = house.Name;
+                bookHouse_address.Text = house.Address;
+                bookHouse_rent.Text = house.Rent.ToString("0.00");
+                bookHouse_dailyRent.Text = house.DailyRent.ToString("0.00");
+                bookHouse_deposit.Text = house.Deposit.ToString("0.00");
+                bookHouse_status.Text = house.BookedUntil is DateTime until
+                    ? $"Booked until {until:d MMM yyyy}"
+                    : house.Status;
+                bookHouse_total.Text = "0.00";
 
-                regprice = Convert.ToDecimal(row.Cells[7].Value.ToString());
-
-                bookHouse_imageView.ImageLocation = row.Cells[9].Value.ToString();
+                bookHouse_imageView.ImageLocation = house.Image;
             }
+        }
+
+        // Builds the booking from the screen as it is right now, so dates and total always match.
+        private Booking? CurrentBooking()
+        {
+            if (selectedHouse == null)
+            {
+                MessageBox.Show("Please select a house first.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            return new Booking(selectedHouse.HouseId, bookHouse_start.Value.Date, bookHouse_end.Value.Date,
+                (string)bookHouse_plan.SelectedItem!, selectedHouse.Rent, selectedHouse.DailyRent, selectedHouse.Deposit);
         }
 
         private void bookHouse_scheduleBtn_Click(object sender, EventArgs e)
         {
-            DateTime fromDate = bookHouse_start.Value;
-            DateTime toDate = bookHouse_end.Value;
+            Booking? booking = CurrentBooking();
+            if (booking == null) return;
 
-            int totalMonths = ((toDate.Year - fromDate.Year) * 12) + toDate.Month - fromDate.Month;
-
-            if (toDate.Day < fromDate.Day)
+            if (booking.End <= booking.Start)
             {
-                totalMonths--;
-            }
-
-            decimal totalPrice = (regprice * totalMonths);
-
-            if (totalPrice < 0)
-            {
-                MessageBox.Show("Something went wrong :3", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                MessageBox.Show("The end date must be after the start date.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 bookHouse_total.Text = "0.00";
+                return;
             }
-            else
-            {
-                bookHouse_total.Text = (regprice * totalMonths).ToString("0.00");
-            }
+
+            bookHouse_total.Text = booking.Total.ToString("0.00");
         }
 
         private void bookHouse_bookHouseBtn_Click(object sender, EventArgs e)
         {
-            if (regprice == 0 || bookHouse_total.Text == "0.00")
-            {
-                MessageBox.Show("Please fill all correctly", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (bookHouse_status.Text != "Available")
-            {
-                MessageBox.Show("The house is unavailable", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                houseData1.houseID = bookHouse_houseID.Text;
-                houseData1.fromDate = bookHouse_start.Value;
-                houseData1.toDate = bookHouse_end.Value;
-                houseData1.rentAmount = bookHouse_total.Text;
-                houseData1.rent = bookHouse_rent.Text;
-                houseData1.deposit = bookHouse_deposit.Text;
-                Form formbg = new Form();
+            Booking? booking = CurrentBooking();
+            if (booking == null) return;
 
-                try
-                {
-                    using (clientInfo ciForm = new clientInfo())
-                    {
-                        ciForm.Owner = formbg;
-                        ciForm.ShowDialog();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    formbg.Dispose();
-                }
+            string? problem = booking.FindProblem();
+            if (problem != null)
+            {
+                MessageBox.Show(problem, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+
+            bookHouse_total.Text = booking.Total.ToString("0.00");
+
+            using (clientInfo ciForm = new clientInfo(booking))
+            {
+                ciForm.ShowDialog(this);
+            }
+
+            clearField();
+            refreshData();
         }
 
         public void clearField()
         {
+            selectedHouse = null;
             bookHouse_houseID.Text = "---------";
             bookHouse_name.Text = "---------";
             bookHouse_address.Text = "---------";
             bookHouse_rent.Text = "0.00";
+            bookHouse_dailyRent.Text = "0.00";
+            bookHouse_plan.SelectedItem = "Monthly";
             bookHouse_deposit.Text = "0.00";
             bookHouse_status.Text = "---------";
             bookHouse_total.Text = "0.00";

@@ -48,6 +48,8 @@
             label9 = new Label();
             addHouse_rentAmount = new TextBox();
             label8 = new Label();
+            addHouse_dailyRent = new TextBox();
+            label12 = new Label();
             addHouse_numOfBathrooms = new NumericUpDown();
             label7 = new Label();
             addHouse_numOfBedrooms = new NumericUpDown();
@@ -129,6 +131,8 @@
             panel2.Controls.Add(label9);
             panel2.Controls.Add(addHouse_rentAmount);
             panel2.Controls.Add(label8);
+            panel2.Controls.Add(addHouse_dailyRent);
+            panel2.Controls.Add(label12);
             panel2.Controls.Add(addHouse_numOfBathrooms);
             panel2.Controls.Add(label7);
             panel2.Controls.Add(addHouse_numOfBedrooms);
@@ -323,8 +327,27 @@
             label8.Name = "label8";
             label8.Size = new Size(162, 26);
             label8.TabIndex = 16;
-            label8.Text = "Rent Amount($):";
-            // 
+            label8.Text = "Per Month($):";
+            //
+            // addHouse_dailyRent
+            //
+            addHouse_dailyRent.Font = new Font("Source Code Pro", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addHouse_dailyRent.Location = new Point(830, 226);
+            addHouse_dailyRent.Name = "addHouse_dailyRent";
+            addHouse_dailyRent.Size = new Size(150, 33);
+            addHouse_dailyRent.TabIndex = 26;
+            //
+            // label12
+            //
+            label12.AutoSize = true;
+            label12.Font = new Font("Source Code Pro", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.ForeColor = Color.FromArgb(61, 64, 91);
+            label12.Location = new Point(700, 229);
+            label12.Name = "label12";
+            label12.Size = new Size(122, 26);
+            label12.TabIndex = 25;
+            label12.Text = "Per Day($):";
+            //
             // addHouse_numOfBathrooms
             // 
             addHouse_numOfBathrooms.Font = new Font("Source Code Pro", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -488,6 +511,8 @@
         private Label label9;
         private TextBox addHouse_rentAmount;
         private Label label8;
+        private TextBox addHouse_dailyRent;
+        private Label label12;
         private Panel panel3;
         private Button addHouseBtn;
         private Button addHouse_importBtn;

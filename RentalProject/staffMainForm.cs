@@ -16,6 +16,7 @@ namespace RentalProject
         public staffMainForm()
         {
             InitializeComponent();
+            admin_dashboard1.refreshData();
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -26,12 +27,9 @@ namespace RentalProject
         private void logout_btn_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to logout?", "Confirmation Message",
-                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                LoginFile loginForm = new LoginFile();
-                loginForm.Show();
-
-                this.Hide();
+                Close(); // the login form shows itself again when this form closes
             }
         }
 

@@ -19,22 +19,26 @@ namespace RentalProject
         public int Bedrooms { get; set; }
         public int Bathrooms { get; set; }
         public decimal Rent { get; set; }
+        public decimal DailyRent { get; set; }
         public decimal Deposit { get; set; }
         public string Image { get; set; }
         public DateTime Date_Available { get; set; }
         public string Status { get; set; }
+        // Current and upcoming bookings, e.g. "28 Oct 2026 - 28 Dec 2026". Empty when none.
+        public string BookedDates { get; set; } = "";
+        // Move-out day of the booking running today, or null if nobody is in the house today.
+        [System.ComponentModel.Browsable(false)]
+        public DateTime? BookedUntil { get; set; }
 
-        
 
         public class DatabaseAccess
         {
-            private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
 
             public List<houseData> GetHouseDataList()
             {
                 List<houseData> listData = new List<houseData>();
 
-                using (SqlConnection connect = new SqlConnection(conn))
+                using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                 {
                     connect.Open();
 
@@ -42,7 +46,7 @@ namespace RentalProject
 
                     using (SqlCommand cmd = new SqlCommand(selectData, connect))
                     {
-                        SqlDataReader reader = cmd.ExecuteReader();
+                        using SqlDataReader reader = cmd.ExecuteReader();
 
                         while (reader.Read())
                         {
@@ -60,8 +64,34 @@ namespace RentalProject
                             hData.Image = reader["image_path"].ToString();
                             hData.Date_Available = reader.GetDateTime(reader.GetOrdinal("date_available"));
                             hData.Status = reader["status"].ToString();
+                            hData.DailyRent = reader.GetDecimal(reader.GetOrdinal("daily_rent"));
 
                             listData.Add(hData);
+                        }
+                    }
+
+                    // Bookings that haven't ended yet. The end date is the move-out day.
+                    string selectBookings =
+                        "SELECT house_id, date_start, date_end FROM customers " +
+                        "WHERE status = 'Rent Approved' AND date_start IS NOT NULL AND date_end > @today " +
+                        "ORDER BY date_start";
+
+                    using (SqlCommand cmd = new SqlCommand(selectBookings, connect))
+                    {
+                        DateTime today = DateTime.Today;
+                        cmd.Parameters.AddWithValue("@today", today);
+                        using SqlDataReader reader = cmd.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            houseData? house = listData.Find(h => h.HouseId == reader.GetString(0));
+                            if (house == null) continue;
+
+                            DateTime start = reader.GetDateTime(1);
+                            DateTime end = reader.GetDateTime(2);
+                            string period = $"{start:d MMM yyyy} - {end:d MMM yyyy}";
+                            house.BookedDates = house.BookedDates == "" ? period : house.BookedDates + ", " + period;
+                            if (start <= today) house.BookedUntil = end;
                         }
                     }
                 }

@@ -10,12 +10,10 @@ namespace RentalProject
 {
     internal class usersData
     {
-        private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
 
         public int ID {  get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public string Role { get; set; }
         public string Status { get; set; }
         public string DateReg { get; set; }
@@ -24,11 +22,12 @@ namespace RentalProject
         {
             List<usersData> listData = new List<usersData>();
 
-            using(SqlConnection connection = new SqlConnection(conn))
+            using(SqlConnection connection = new SqlConnection(Db.ConnectionString))
             {
                 connection.Open();
 
-                string selectData = "SELECT * FROM users";
+                // No password column: the grid must never show password hashes.
+                string selectData = "SELECT id, name, email, role, status, date_registered FROM users";
 
                 using(SqlCommand cmd = new SqlCommand(selectData, connection))
                 {
@@ -41,7 +40,6 @@ namespace RentalProject
                         uData.ID = (int)reader["id"];
                         uData.Name = reader["name"].ToString();
                         uData.Email = reader["email"].ToString();
-                        uData.Password = reader["password"].ToString();
                         uData.Role = reader["role"].ToString();
                         uData.Status = reader["status"].ToString();
                         uData.DateReg = reader["date_registered"].ToString();

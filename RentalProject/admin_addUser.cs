@@ -13,12 +13,10 @@ namespace RentalProject
 {
     public partial class admin_addUser : UserControl
     {
-        private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
         public admin_addUser()
         {
             InitializeComponent();
-
-            displayData();
+            // No data loading here: the VS designer runs this constructor. The main form calls refreshData().
         }
 
         public void refreshData()
@@ -45,7 +43,7 @@ namespace RentalProject
             }
             else
             {
-                using (SqlConnection connect = new SqlConnection(conn))
+                using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                 {
                     connect.Open();
 
@@ -68,7 +66,7 @@ namespace RentalProject
                         }
                         else if (addUser_password.Text.Length < 8)
                         {
-                            MessageBox.Show("Invalid Password", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("The password must be at least 8 characters.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
@@ -78,7 +76,7 @@ namespace RentalProject
                             {
                                 cmd.Parameters.AddWithValue("@name", addUser_name.Text.Trim());
                                 cmd.Parameters.AddWithValue("@userEmail", addUser_email.Text.Trim());
-                                cmd.Parameters.AddWithValue("@pass", addUser_password.Text.Trim());
+                                cmd.Parameters.AddWithValue("@pass", Passwords.Hash(addUser_password.Text));
                                 cmd.Parameters.AddWithValue("@role", addUser_role.SelectedItem.ToString());
                                 cmd.Parameters.AddWithValue("@status", addUser_status.SelectedItem.ToString());
 
@@ -89,6 +87,7 @@ namespace RentalProject
                                 cmd.ExecuteNonQuery();
 
                                 clearFields();
+                                displayData();
 
                                 MessageBox.Show("Added Successfully", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -106,49 +105,78 @@ namespace RentalProject
             addUser_password.Text = "";
             addUser_role.SelectedIndex = -1;
             addUser_status.SelectedIndex = -1;
+            getID = 0;
         }
         private void addUser_clearBtn_Click(object sender, EventArgs e)
         {
             clearFields();
         }
 
+        // Returns why an update or delete of the selected user can't go ahead, or null when it can.
+        // The logged-in admin can't delete, demote or deactivate themselves. That also guarantees
+        // at least one active admin is always left: the person doing it.
+        private string? FindProblem(bool deleting)
+        {
+            if (getID == 0) return "Please select a user in the list first.";
+            if (getID != Session.UserId) return null;
+            if (deleting) return "You can't delete your own account.";
+            if (addUser_role.Text != "Admin" || addUser_status.Text != "Active")
+                return "You can't remove your own admin role or deactivate your own account.";
+            return null;
+        }
+
         private void adduser_updateBtn_Click(object sender, EventArgs e)
         {
-            if (addUser_name.Text == "" || addUser_email.Text == "" || addUser_password.Text == "" || addUser_role.SelectedIndex == -1 || addUser_status.SelectedIndex == -1)
+            string? problem = FindProblem(deleting: false);
+            if (problem == null && (addUser_name.Text == "" || addUser_email.Text == "" || addUser_role.SelectedIndex == -1 || addUser_status.SelectedIndex == -1))
+                problem = "Please fill all blank fields. Leave the password empty to keep the current one.";
+            if (problem == null && addUser_password.Text != "" && addUser_password.Text.Length < 8)
+                problem = "The new password must be at least 8 characters.";
+            if (problem != null)
             {
-                MessageBox.Show("Please fill all all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(problem, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
+
+            if (MessageBox.Show("Are you sure you want to update ID: " + getID + "?", "Confirmation Message",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
-                if (MessageBox.Show("Are you sure you want to update ID: " + getID + "?", "Confirmation Message",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                return;
+            }
+
+            using SqlConnection connect = new SqlConnection(Db.ConnectionString);
+            connect.Open();
+
+            using (SqlCommand checkE = new SqlCommand("SELECT 1 FROM users WHERE email = @userEmail AND id <> @id", connect))
+            {
+                checkE.Parameters.AddWithValue("@userEmail", addUser_email.Text.Trim());
+                checkE.Parameters.AddWithValue("@id", getID);
+                if (checkE.ExecuteScalar() != null)
                 {
-                    using (SqlConnection connect = new SqlConnection(conn))
-                    {
-                        connect.Open();
-
-                        string updateData = "UPDATE users SET name = @name, password = @pass, role = @role, status = @status WHERE email = @userEmail";
-
-                        using (SqlCommand cmd = new SqlCommand(updateData, connect))
-                        {
-                            cmd.Parameters.AddWithValue("@name", addUser_name.Text.Trim());
-                            cmd.Parameters.AddWithValue("@pass", addUser_password.Text.Trim());
-                            cmd.Parameters.AddWithValue("@role", addUser_role.SelectedItem.ToString());
-                            cmd.Parameters.AddWithValue("@status", addUser_status.SelectedItem.ToString());
-                            cmd.Parameters.AddWithValue("@userEmail", addUser_email.Text.Trim());
-
-
-                            cmd.ExecuteNonQuery();
-                            displayData();
-
-                            MessageBox.Show("Upadated successfully", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        }
-                    }
+                    MessageBox.Show("Another user already has this email.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-
-
             }
+
+            // An empty password box keeps the current password.
+            string updateData = "UPDATE users SET name = @name, email = @userEmail, role = @role, status = @status" +
+                (addUser_password.Text == "" ? "" : ", password = @pass") + " WHERE id = @id";
+
+            using (SqlCommand cmd = new SqlCommand(updateData, connect))
+            {
+                cmd.Parameters.AddWithValue("@name", addUser_name.Text.Trim());
+                cmd.Parameters.AddWithValue("@userEmail", addUser_email.Text.Trim());
+                cmd.Parameters.AddWithValue("@role", addUser_role.Text);
+                cmd.Parameters.AddWithValue("@status", addUser_status.Text);
+                cmd.Parameters.AddWithValue("@id", getID);
+                if (addUser_password.Text != "") cmd.Parameters.AddWithValue("@pass", Passwords.Hash(addUser_password.Text));
+
+                cmd.ExecuteNonQuery();
+            }
+
+            clearFields();
+            displayData();
+            MessageBox.Show("Updated successfully", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private int getID;
@@ -156,51 +184,44 @@ namespace RentalProject
         {
             if (e.RowIndex != -1)
             {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                usersData user = (usersData)dataGridView1.Rows[e.RowIndex].DataBoundItem;
 
-                getID = (int)row.Cells[0].Value;
-                addUser_name.Text = row.Cells[1].Value.ToString();
-                addUser_email.Text = row.Cells[2].Value.ToString();
-                addUser_password.Text = row.Cells[3].Value.ToString();
-                addUser_role.Text = row.Cells[4].Value.ToString();
-                addUser_status.Text = row.Cells[5].Value.ToString();
-
+                getID = user.ID;
+                addUser_name.Text = user.Name;
+                addUser_email.Text = user.Email;
+                addUser_password.Text = "";
+                addUser_role.Text = user.Role;
+                addUser_status.Text = user.Status;
             }
         }
 
         private void addUser_deleteBtn_Click(object sender, EventArgs e)
         {
-            if (addUser_name.Text == "" || addUser_email.Text == "" || addUser_password.Text == "" || addUser_role.SelectedIndex == -1 || addUser_status.SelectedIndex == -1)
+            string? problem = FindProblem(deleting: true);
+            if (problem != null)
             {
-                MessageBox.Show("Please fill all all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(problem, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
+
+            if (MessageBox.Show($"Are you sure you want to delete {addUser_name.Text} (ID: {getID})?", "Confirmation Message",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
-                if (MessageBox.Show("Are you sure you want to delete ID: " + getID + "?", "Confirmation Message",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    using (SqlConnection connect = new SqlConnection(conn))
-                    {
-                        connect.Open();
-
-                        string updateData = "DELETE FROM users WHERE email = @userEmail";
-
-                        using (SqlCommand cmd = new SqlCommand(updateData, connect))
-                        {
-                            cmd.Parameters.AddWithValue("@userEmail", addUser_email.Text.Trim());
-
-
-                            cmd.ExecuteNonQuery();
-                            displayData();
-
-                            MessageBox.Show("Deleted successfully", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        }
-                    }
-                }
-
-
+                return;
             }
+
+            using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
+            {
+                connect.Open();
+
+                using SqlCommand cmd = new SqlCommand("DELETE FROM users WHERE id = @id", connect);
+                cmd.Parameters.AddWithValue("@id", getID);
+                cmd.ExecuteNonQuery();
+            }
+
+            clearFields();
+            displayData();
+            MessageBox.Show("Deleted successfully", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

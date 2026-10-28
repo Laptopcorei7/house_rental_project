@@ -15,6 +15,7 @@ namespace RentalProject
         public AdminMainForm()
         {
             InitializeComponent();
+            admin_dashboard1.refreshData();
         }
 
         private void close_Click(object sender, EventArgs e)
@@ -29,10 +30,7 @@ namespace RentalProject
         {
             if (MessageBox.Show("Are You sure You want to Log Out?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                LoginFile loginForm = new LoginFile();
-                loginForm.Show();
-
-                this.Hide();
+                Close(); // the login form shows itself again when this form closes
             }
         }
 

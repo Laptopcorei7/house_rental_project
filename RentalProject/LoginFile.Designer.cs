@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            login_createAcc = new Button();
-            label6 = new Label();
             label5 = new Label();
             pictureBox1 = new PictureBox();
             close = new Label();
@@ -48,8 +46,6 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(212, 163, 115);
-            panel1.Controls.Add(login_createAcc);
-            panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Left;
@@ -57,36 +53,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(346, 553);
             panel1.TabIndex = 0;
-            // 
-            // login_createAcc
-            // 
-            login_createAcc.BackColor = Color.FromArgb(233, 216, 166);
-            login_createAcc.Cursor = Cursors.Hand;
-            login_createAcc.FlatAppearance.MouseDownBackColor = Color.FromArgb(129, 178, 154);
-            login_createAcc.FlatAppearance.MouseOverBackColor = Color.FromArgb(129, 178, 154);
-            login_createAcc.FlatStyle = FlatStyle.Flat;
-            login_createAcc.Font = new Font("Source Code Pro", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            login_createAcc.ForeColor = Color.FromArgb(61, 64, 91);
-            login_createAcc.Location = new Point(39, 473);
-            login_createAcc.Name = "login_createAcc";
-            login_createAcc.Size = new Size(281, 52);
-            login_createAcc.TabIndex = 8;
-            login_createAcc.Text = "Create an Account";
-            login_createAcc.UseVisualStyleBackColor = false;
-            login_createAcc.Click += login_createAcc_Click;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.BackColor = Color.FromArgb(212, 163, 115);
-            label6.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.FromArgb(61, 64, 91);
-            label6.Location = new Point(211, 415);
-            label6.Name = "label6";
-            label6.Size = new Size(109, 30);
-            label6.TabIndex = 4;
-            label6.Text = "Sign Up?";
-            label6.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label5
             // 
@@ -242,8 +208,6 @@
         private Button login_btn;
         private PictureBox pictureBox1;
         private Label label5;
-        private Button login_createAcc;
-        private Label label6;
         private CheckBox login_showPass;
     }
 }

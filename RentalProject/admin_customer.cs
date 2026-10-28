@@ -15,7 +15,7 @@ namespace RentalProject
         public admin_customer()
         {
             InitializeComponent();
-            displayCustomerData();
+            // No data loading here: the VS designer runs this constructor. The main form calls refreshData().
         }
 
         public void refreshData()

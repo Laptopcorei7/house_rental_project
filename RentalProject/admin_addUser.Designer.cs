@@ -164,6 +164,7 @@
             // addUser_status
             // 
             addUser_status.Font = new Font("Source Code Pro", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addUser_status.DropDownStyle = ComboBoxStyle.DropDownList;
             addUser_status.FormattingEnabled = true;
             addUser_status.Items.AddRange(new object[] { "Active", "Inactive" });
             addUser_status.Location = new Point(17, 462);
@@ -185,6 +186,7 @@
             // addUser_role
             // 
             addUser_role.Font = new Font("Source Code Pro", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addUser_role.DropDownStyle = ComboBoxStyle.DropDownList;
             addUser_role.FormattingEnabled = true;
             addUser_role.Items.AddRange(new object[] { "Admin", "Staff" });
             addUser_role.Location = new Point(17, 363);

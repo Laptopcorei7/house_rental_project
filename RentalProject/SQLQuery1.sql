@@ -9,6 +9,7 @@
     date_registered DATE NOT NULL
 );
 
+-- The app hashes this plain-text password the first time anyone logs in (Passwords.HashPlainTextPasswords).
 INSERT INTO users(name, email, password, role, status, date_registered) VALUES('admin', 'admin@example.com', 'admin12345', 'Admin', 'Active', '2024-07-23')
 
 SELECT * FROM users
@@ -25,6 +26,7 @@ CREATE TABLE addHouse
     number_of_bedrooms INT NOT NULL,
     number_of_bathrooms INT NOT NULL,
     rent_amount DECIMAL(10, 2) NOT NULL,
+    daily_rent DECIMAL(10, 2) NOT NULL DEFAULT 0,
     deposit_amount DECIMAL(10, 2) NOT NULL,
     image_path VARCHAR(255) NOT NULL,
     date_available DATE NOT NULL,
@@ -42,11 +44,12 @@ CREATE TABLE customers
     id INT PRIMARY KEY IDENTITY(1, 1),
     book_id VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL,
     contact VARCHAR(255) NOT NULL,
     gender VARCHAR(255) NOT NULL,
     house_id VARCHAR(255) NOT NULL,
-    rent_amount DECIMAL NOT NULL,
+    rent_amount DECIMAL(10, 2) NOT NULL,
+    rent_plan VARCHAR(20) NOT NULL DEFAULT 'Monthly',
     status_payment VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     date_start DATE NULL,

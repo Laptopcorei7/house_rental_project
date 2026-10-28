@@ -15,7 +15,6 @@ namespace RentalProject
     public partial class LoginFile : Form
     {
 
-        private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
 
         public LoginFile()
         {
@@ -37,12 +36,20 @@ namespace RentalProject
             login_password.PasswordChar = login_showPass.Checked ? '\0' : '*';
         }
 
-        private void login_createAcc_Click(object sender, EventArgs e)
+        // This login form lives for the whole session: it hides while a main form is open
+        // and comes back when that form closes (logout), so no hidden forms pile up.
+        private void OpenMainForm(Form mainForm)
         {
-            RegistrationForm regform = new RegistrationForm();
-            regform.Show();
-
-            this.Hide();
+            login_password.Text = "";
+            mainForm.FormClosed += (sender, e) =>
+            {
+                if (e.CloseReason != CloseReason.ApplicationExitCall)
+                {
+                    Show();
+                }
+            };
+            mainForm.Show();
+            Hide();
         }
 
         private bool IsValidEmail(string email)
@@ -64,57 +71,42 @@ namespace RentalProject
             }
             else
             {
-                using(SqlConnection connect = new SqlConnection(conn))
+                int userId = 0;
+                string? storedPassword = null, userRole = null;
+
+                using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                 {
                     connect.Open();
+                    Passwords.HashPlainTextPasswords(connect);
 
-                    string selectData = "SELECT * from users WHERE (email = @userEmail and password = @pass) AND status = 'Active'";
+                    string selectData = "SELECT id, password, role FROM users WHERE email = @userEmail AND status = 'Active'";
+                    using SqlCommand cmd = new SqlCommand(selectData, connect);
+                    cmd.Parameters.AddWithValue("@userEmail", login_email.Text.Trim());
 
-                    using(SqlCommand cmd = new SqlCommand(selectData, connect))
+                    using SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
                     {
-                        cmd.Parameters.AddWithValue("@userEmail", login_email.Text.Trim());
-                        cmd.Parameters.AddWithValue("@pass", login_password.Text.Trim());
-                        cmd.Parameters.AddWithValue("@status", "Active");
-
-                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                        DataTable table = new DataTable();
-
-                        adapter.Fill(table);
-
-                        if(table.Rows.Count != 0)
-                        {
-                            string selectRole = "SELECT role FROM users WHERE email = @userEmail and password = @pass";
-
-                            using(SqlCommand getRole = new SqlCommand(selectRole, connect))
-                            {
-                                getRole.Parameters.AddWithValue("@userEmail", login_email.Text.Trim());
-                                getRole.Parameters.AddWithValue("@pass", login_password.Text.Trim());
-
-                                string userRole = getRole.ExecuteScalar() as string;
-
-                                if(userRole == "Admin")
-                                {
-                                    AdminMainForm adminMainForm = new AdminMainForm();
-                                    adminMainForm.Show();
-
-                                    this.Hide();
-                                }
-                                else if(userRole == "Staff")
-                                {
-                                    staffMainForm staffForm = new staffMainForm();
-                                    staffForm.Show();
-
-                                    this.Hide();
-                                }
-                            }
-
-                            
-                        }
-                        else
-                        {
-                            MessageBox.Show("Incorrect Email or Password", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        userId = reader.GetInt32(0);
+                        storedPassword = reader.GetString(1);
+                        userRole = reader.GetString(2);
                     }
+                }
+
+                // Same message for a wrong email and a wrong password, so it doesn't reveal which accounts exist.
+                if (storedPassword == null || !Passwords.Verify(login_password.Text, storedPassword))
+                {
+                    MessageBox.Show("Incorrect Email or Password", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Session.UserId = userId;
+                if (userRole == "Admin")
+                {
+                    OpenMainForm(new AdminMainForm());
+                }
+                else if (userRole == "Staff")
+                {
+                    OpenMainForm(new staffMainForm());
                 }
             }
         }

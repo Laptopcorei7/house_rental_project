@@ -14,17 +14,11 @@ namespace RentalProject
 {
     public partial class admin_dashboard : UserControl
     {
-        private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
 
         public admin_dashboard()
         {
             InitializeComponent();
-
-            displayTotalStaff();
-            displayAvailableHouses();
-            displayProfitsToday();
-            displayProfitsTotal();
-            displayAllHouses();
+            // No data loading here: the VS designer runs this constructor. The main form calls refreshData().
         }
 
         public void refreshData()
@@ -51,7 +45,7 @@ namespace RentalProject
 
         public void displayTotalStaff()
         {
-            using(SqlConnection connect = new SqlConnection(conn))
+            using(SqlConnection connect = new SqlConnection(Db.ConnectionString))
             {
                 connect.Open();
 
@@ -71,7 +65,7 @@ namespace RentalProject
 
         public void displayAvailableHouses()
         {
-            using (SqlConnection connect = new SqlConnection(conn))
+            using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
             {
                 connect.Open();
 
@@ -91,7 +85,7 @@ namespace RentalProject
 
         public void displayProfitsToday()
         {
-            using (SqlConnection connect = new SqlConnection(conn))
+            using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
             {
                 connect.Open();
 
@@ -116,7 +110,7 @@ namespace RentalProject
 
         public void displayProfitsTotal()
         {
-            using (SqlConnection connect = new SqlConnection(conn))
+            using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
             {
                 connect.Open();
 

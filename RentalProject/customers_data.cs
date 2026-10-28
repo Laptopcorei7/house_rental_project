@@ -10,7 +10,6 @@ namespace RentalProject
 {
     internal class customers_data
     {
-        private string conn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Buabeng\\Documents\\HOUSE.mdf;Integrated Security=True;Connect Timeout=30";
 
         public int ID { get; set; }
         public string BookID { get; set; }
@@ -20,6 +19,7 @@ namespace RentalProject
         public string Gender { get; set; }
         public string HouseID { get; set; }
         public decimal RentAmount { get; set; }
+        public string RentPlan { get; set; }
         public string StatusPayment { get; set; }
         public string Status { get; set; }
         public DateTime DateStart { get; set; }
@@ -30,7 +30,7 @@ namespace RentalProject
         {
             List<customers_data> listData = new List<customers_data>();
 
-            using (SqlConnection connect = new SqlConnection(conn))
+            using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
             {
                 connect.Open();
 
@@ -52,7 +52,8 @@ namespace RentalProject
                         cData.Gender = reader["gender"].ToString();
                         cData.HouseID = reader["house_id"].ToString();
                         cData.RentAmount = reader.GetDecimal(reader.GetOrdinal("rent_amount"));
-                        cData.StatusPayment = reader["status_payment"].ToString();
+                        cData.RentPlan = reader["rent_plan"].ToString();
+                        cData.StatusPayment =reader["status_payment"].ToString();
                         cData.Status = reader["status"].ToString();
                         cData.DateStart = reader.GetDateTime(reader.GetOrdinal("date_start"));
                         cData.DateEnd = reader.GetDateTime(reader.GetOrdinal("date_end"));

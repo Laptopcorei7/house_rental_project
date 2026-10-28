@@ -34,6 +34,10 @@
             bookHouse_name = new Label();
             bookHouse_address = new Label();
             bookHouse_rent = new Label();
+            bookHouse_dailyRent = new Label();
+            label12 = new Label();
+            bookHouse_plan = new ComboBox();
+            label13 = new Label();
             bookHouse_deposit = new Label();
             bookHouse_status = new Label();
             bookHouse_houseID = new Label();
@@ -73,6 +77,10 @@
             panel6.Controls.Add(bookHouse_name);
             panel6.Controls.Add(bookHouse_address);
             panel6.Controls.Add(bookHouse_rent);
+            panel6.Controls.Add(bookHouse_dailyRent);
+            panel6.Controls.Add(label12);
+            panel6.Controls.Add(bookHouse_plan);
+            panel6.Controls.Add(label13);
             panel6.Controls.Add(bookHouse_deposit);
             panel6.Controls.Add(bookHouse_status);
             panel6.Controls.Add(bookHouse_houseID);
@@ -100,7 +108,7 @@
             bookHouse_total.AutoSize = true;
             bookHouse_total.Font = new Font("Source Code Pro", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             bookHouse_total.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_total.Location = new Point(273, 451);
+            bookHouse_total.Location = new Point(273, 500);
             bookHouse_total.Name = "bookHouse_total";
             bookHouse_total.Size = new Size(56, 27);
             bookHouse_total.TabIndex = 42;
@@ -133,18 +141,62 @@
             bookHouse_rent.AutoSize = true;
             bookHouse_rent.Font = new Font("Source Code Pro", 9F, FontStyle.Bold);
             bookHouse_rent.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_rent.Location = new Point(207, 140);
+            bookHouse_rent.Location = new Point(187, 140);
             bookHouse_rent.Name = "bookHouse_rent";
             bookHouse_rent.Size = new Size(46, 23);
             bookHouse_rent.TabIndex = 39;
             bookHouse_rent.Text = "0.00";
-            // 
+            //
+            // bookHouse_dailyRent
+            //
+            bookHouse_dailyRent.AutoSize = true;
+            bookHouse_dailyRent.Font = new Font("Source Code Pro", 9F, FontStyle.Bold);
+            bookHouse_dailyRent.ForeColor = Color.FromArgb(61, 64, 91);
+            bookHouse_dailyRent.Location = new Point(187, 178);
+            bookHouse_dailyRent.Name = "bookHouse_dailyRent";
+            bookHouse_dailyRent.Size = new Size(46, 23);
+            bookHouse_dailyRent.TabIndex = 43;
+            bookHouse_dailyRent.Text = "0.00";
+            //
+            // label12
+            //
+            label12.AutoSize = true;
+            label12.Font = new Font("Source Code Pro", 9F);
+            label12.ForeColor = Color.FromArgb(61, 64, 91);
+            label12.Location = new Point(76, 178);
+            label12.Name = "label12";
+            label12.Size = new Size(109, 23);
+            label12.TabIndex = 44;
+            label12.Text = "Per Day($):";
+            //
+            // bookHouse_plan
+            //
+            bookHouse_plan.DropDownStyle = ComboBoxStyle.DropDownList;
+            bookHouse_plan.Font = new Font("Source Code Pro", 9F);
+            bookHouse_plan.FormattingEnabled = true;
+            bookHouse_plan.Items.AddRange(new object[] { "Monthly", "Daily" });
+            bookHouse_plan.Location = new Point(162, 289);
+            bookHouse_plan.Name = "bookHouse_plan";
+            bookHouse_plan.Size = new Size(238, 31);
+            bookHouse_plan.TabIndex = 29;
+            //
+            // label13
+            //
+            label13.AutoSize = true;
+            label13.Font = new Font("Source Code Pro", 9F);
+            label13.ForeColor = Color.FromArgb(61, 64, 91);
+            label13.Location = new Point(107, 292);
+            label13.Name = "label13";
+            label13.Size = new Size(55, 23);
+            label13.TabIndex = 45;
+            label13.Text = "Plan:";
+            //
             // bookHouse_deposit
             // 
             bookHouse_deposit.AutoSize = true;
             bookHouse_deposit.Font = new Font("Source Code Pro", 9F, FontStyle.Bold);
             bookHouse_deposit.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_deposit.Location = new Point(204, 184);
+            bookHouse_deposit.Location = new Point(204, 216);
             bookHouse_deposit.Name = "bookHouse_deposit";
             bookHouse_deposit.Size = new Size(46, 23);
             bookHouse_deposit.TabIndex = 38;
@@ -155,7 +207,7 @@
             bookHouse_status.AutoSize = true;
             bookHouse_status.Font = new Font("Source Code Pro", 9F, FontStyle.Bold);
             bookHouse_status.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_status.Location = new Point(187, 226);
+            bookHouse_status.Location = new Point(187, 254);
             bookHouse_status.Name = "bookHouse_status";
             bookHouse_status.Size = new Size(91, 23);
             bookHouse_status.TabIndex = 37;
@@ -181,7 +233,7 @@
             bookHouse_clearBtn.FlatStyle = FlatStyle.Flat;
             bookHouse_clearBtn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             bookHouse_clearBtn.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_clearBtn.Location = new Point(26, 622);
+            bookHouse_clearBtn.Location = new Point(26, 630);
             bookHouse_clearBtn.Name = "bookHouse_clearBtn";
             bookHouse_clearBtn.Size = new Size(356, 56);
             bookHouse_clearBtn.TabIndex = 34;
@@ -198,7 +250,7 @@
             bookHouse_scheduleBtn.FlatStyle = FlatStyle.Flat;
             bookHouse_scheduleBtn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             bookHouse_scheduleBtn.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_scheduleBtn.Location = new Point(26, 366);
+            bookHouse_scheduleBtn.Location = new Point(26, 425);
             bookHouse_scheduleBtn.Name = "bookHouse_scheduleBtn";
             bookHouse_scheduleBtn.Size = new Size(356, 56);
             bookHouse_scheduleBtn.TabIndex = 33;
@@ -211,7 +263,7 @@
             label11.AutoSize = true;
             label11.Font = new Font("Source Code Pro", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.FromArgb(61, 64, 91);
-            label11.Location = new Point(79, 451);
+            label11.Location = new Point(79, 500);
             label11.Name = "label11";
             label11.Size = new Size(188, 27);
             label11.TabIndex = 32;
@@ -219,14 +271,14 @@
             // 
             // bookHouse_end
             // 
-            bookHouse_end.Location = new Point(162, 308);
+            bookHouse_end.Location = new Point(162, 380);
             bookHouse_end.Name = "bookHouse_end";
             bookHouse_end.Size = new Size(238, 27);
             bookHouse_end.TabIndex = 31;
             // 
             // bookHouse_start
             // 
-            bookHouse_start.Location = new Point(162, 261);
+            bookHouse_start.Location = new Point(162, 336);
             bookHouse_start.Name = "bookHouse_start";
             bookHouse_start.Size = new Size(238, 27);
             bookHouse_start.TabIndex = 30;
@@ -236,7 +288,7 @@
             label10.AutoSize = true;
             label10.Font = new Font("Source Code Pro", 9F);
             label10.ForeColor = Color.FromArgb(61, 64, 91);
-            label10.Location = new Point(44, 308);
+            label10.Location = new Point(44, 380);
             label10.Name = "label10";
             label10.Size = new Size(118, 23);
             label10.TabIndex = 29;
@@ -247,7 +299,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Source Code Pro", 9F);
             label9.ForeColor = Color.FromArgb(61, 64, 91);
-            label9.Location = new Point(26, 261);
+            label9.Location = new Point(26, 336);
             label9.Name = "label9";
             label9.Size = new Size(136, 23);
             label9.TabIndex = 28;
@@ -262,7 +314,7 @@
             bookHouse_bookHouseBtn.FlatStyle = FlatStyle.Flat;
             bookHouse_bookHouseBtn.Font = new Font("Source Code Pro", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             bookHouse_bookHouseBtn.ForeColor = Color.FromArgb(61, 64, 91);
-            bookHouse_bookHouseBtn.Location = new Point(26, 509);
+            bookHouse_bookHouseBtn.Location = new Point(26, 550);
             bookHouse_bookHouseBtn.Name = "bookHouse_bookHouseBtn";
             bookHouse_bookHouseBtn.Size = new Size(356, 56);
             bookHouse_bookHouseBtn.TabIndex = 27;
@@ -286,7 +338,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Source Code Pro", 9F);
             label7.ForeColor = Color.FromArgb(61, 64, 91);
-            label7.Location = new Point(98, 226);
+            label7.Location = new Point(98, 254);
             label7.Name = "label7";
             label7.Size = new Size(73, 23);
             label7.TabIndex = 8;
@@ -308,18 +360,18 @@
             label5.AutoSize = true;
             label5.Font = new Font("Source Code Pro", 9F);
             label5.ForeColor = Color.FromArgb(61, 64, 91);
-            label5.Location = new Point(44, 140);
+            label5.Location = new Point(58, 140);
             label5.Name = "label5";
             label5.Size = new Size(145, 23);
             label5.TabIndex = 6;
-            label5.Text = "Rent Amount($):";
+            label5.Text = "Per Month($):";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Source Code Pro", 9F);
             label4.ForeColor = Color.FromArgb(61, 64, 91);
-            label4.Location = new Point(26, 184);
+            label4.Location = new Point(26, 216);
             label4.Name = "label4";
             label4.Size = new Size(172, 23);
             label4.TabIndex = 5;
@@ -451,6 +503,10 @@
         private Label bookHouse_name;
         private Label bookHouse_address;
         private Label bookHouse_rent;
+        private Label bookHouse_dailyRent;
+        private Label label12;
+        private ComboBox bookHouse_plan;
+        private Label label13;
         private Label bookHouse_deposit;
         private Label bookHouse_status;
         private Label bookHouse_houseID;
