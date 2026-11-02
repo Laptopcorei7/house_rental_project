@@ -30,6 +30,8 @@ namespace RentalProject
         [System.ComponentModel.Browsable(false)]
         public DateTime? BookedUntil { get; set; }
 
+        // House pictures live next to the app; the database stores only the file name.
+        public static readonly string ImageFolder = Path.Combine(AppContext.BaseDirectory, "house_directory");
 
         public class DatabaseAccess
         {
@@ -61,7 +63,8 @@ namespace RentalProject
                             hData.Bathrooms = (int)reader["number_of_bathrooms"];
                             hData.Rent = reader.GetDecimal(reader.GetOrdinal("rent_amount"));
                             hData.Deposit = reader.GetDecimal(reader.GetOrdinal("deposit_amount"));
-                            hData.Image = reader["image_path"].ToString();
+                            // GetFileName also handles older rows that stored a full path.
+                            hData.Image = Path.Combine(ImageFolder, Path.GetFileName(reader["image_path"].ToString()));
                             hData.Date_Available = reader.GetDateTime(reader.GetOrdinal("date_available"));
                             hData.Status = reader["status"].ToString();
                             hData.DailyRent = reader.GetDecimal(reader.GetOrdinal("daily_rent"));

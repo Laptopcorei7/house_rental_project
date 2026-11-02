@@ -69,7 +69,7 @@ namespace RentalProject
             {
                 connect.Open();
 
-                string selectData = "SELECT COUNT(id) FROM addHouse WHERE status = 'Active' OR status = 'Available'";
+                string selectData = "SELECT COUNT(id) FROM addHouse WHERE date_delete IS NULL AND status IN ('Active', 'Available')";
 
                 using (SqlCommand cmd = new SqlCommand(selectData, connect))
                 {

@@ -73,6 +73,29 @@ namespace RentalProject
             return false;
         }
 
+        // Copies the chosen picture into the image folder as <house id>.jpg and returns that file name,
+        // or shows a message and returns null if the picture file is missing.
+        private string? SaveImage()
+        {
+            string source = addHouse_picture.ImageLocation;
+            if (!File.Exists(source))
+            {
+                MessageBox.Show("The house picture could not be found. Please import it again.",
+                    "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            string fileName = addHouse_ID.Text.Trim() + ".jpg";
+            string target = Path.Combine(ImageFolder, fileName);
+            // On an update without a new picture, the source is already the target.
+            if (!string.Equals(Path.GetFullPath(source), target, StringComparison.OrdinalIgnoreCase))
+            {
+                Directory.CreateDirectory(ImageFolder);
+                File.Copy(source, target, true);
+            }
+            return fileName;
+        }
+
         private void addHouseBtn_Click(object sender, EventArgs e)
         {
             if (isEmpty())
@@ -108,16 +131,8 @@ namespace RentalProject
                                     "number_of_bedrooms, number_of_bathrooms, rent_amount, daily_rent, deposit_amount, image_path, date_available, status)" +
                                     "VALUES(@houseID, @name, @description, @address, @bedrooms, @bathrooms, @rent, @daily, @deposit, @path, @date_avail, @status)";
 
-                                string path = Path.Combine("D:\\wsl\\house_rental_project\\RentalProject\\house_directory\\" + addHouse_ID.Text.Trim() + ".jpg");
-
-                                string directoryPath = Path.GetDirectoryName(path);
-
-                                if (!Directory.Exists(directoryPath))
-                                {
-                                    Directory.CreateDirectory(directoryPath);
-                                }
-
-                                File.Copy(addHouse_picture.ImageLocation, path, true);
+                                string? path = SaveImage();
+                                if (path == null) return;
 
                                 using (SqlCommand cmd = new SqlCommand(insertData, connect))
                                 {
@@ -195,17 +210,21 @@ namespace RentalProject
                     if (MessageBox.Show("Are you sure you want to UPDATE ID: " + id + "?", "Confirmation Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
+                        string? path = SaveImage();
+                        if (path == null) return;
+
                         using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                         {
                             connect.Open();
 
                             string updateData = "UPDATE addhouse SET house_id = @houseID, house_name = @name, description = @description, address = @address, " +
                                 "number_of_bedrooms = @bedrooms, number_of_bathrooms = @bathrooms, rent_amount = @rent, daily_rent = @daily, deposit_amount = @deposit," +
-                                "date_available = @date_avail, status = @status, date_update = @update WHERE id = @id";
+                                "image_path = @path, date_available = @date_avail, status = @status, date_update = @update WHERE id = @id";
 
                             using (SqlCommand cmd = new SqlCommand(updateData, connect))
                             {
                                 cmd.Parameters.AddWithValue("id", id);
+                                cmd.Parameters.AddWithValue("@path", path);
                                 cmd.Parameters.AddWithValue("@houseID", addHouse_ID.Text.Trim());
                                 cmd.Parameters.AddWithValue("@name", addHouse_name.Text.Trim());
                                 cmd.Parameters.AddWithValue("@description", addHouse_description.Text.Trim());
