@@ -289,7 +289,7 @@
             label10.Name = "label10";
             label10.Size = new Size(162, 26);
             label10.TabIndex = 20;
-            label10.Text = "Avaliable Date:";
+            label10.Text = "Available Date:";
             // 
             // addHouse_depositAmount
             // 

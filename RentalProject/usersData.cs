@@ -12,11 +12,11 @@ namespace RentalProject
     {
 
         public int ID {  get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Role { get; set; }
-        public string Status { get; set; }
-        public string DateReg { get; set; }
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Role { get; set; } = "";
+        public string Status { get; set; } = "";
+        public string DateReg { get; set; } = "";
 
         public List<usersData> listUsersData()
         {
@@ -38,11 +38,11 @@ namespace RentalProject
                         usersData uData = new usersData();
 
                         uData.ID = (int)reader["id"];
-                        uData.Name = reader["name"].ToString();
-                        uData.Email = reader["email"].ToString();
-                        uData.Role = reader["role"].ToString();
-                        uData.Status = reader["status"].ToString();
-                        uData.DateReg = reader["date_registered"].ToString();
+                        uData.Name = reader["name"].ToString() ?? "";
+                        uData.Email = reader["email"].ToString() ?? "";
+                        uData.Role = reader["role"].ToString() ?? "";
+                        uData.Status = reader["status"].ToString() ?? "";
+                        uData.DateReg = reader["date_registered"].ToString() ?? "";
 
                         listData.Add(uData);
 

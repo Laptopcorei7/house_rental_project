@@ -39,7 +39,7 @@ namespace RentalProject
         {
             if (addUser_name.Text == "" || addUser_email.Text == "" || addUser_password.Text == "" || addUser_role.SelectedIndex == -1 || addUser_status.SelectedIndex == -1)
             {
-                MessageBox.Show("Please fill all all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill all blank fields.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace RentalProject
                         {
                             string tempName = addUser_name.Text.Substring(0, 1).ToUpper() + addUser_name.Text.Substring(1);
 
-                            MessageBox.Show($"{tempName} is existing already", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show($"{tempName} already exists.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else if (addUser_password.Text.Length < 8)
                         {
@@ -77,8 +77,8 @@ namespace RentalProject
                                 cmd.Parameters.AddWithValue("@name", addUser_name.Text.Trim());
                                 cmd.Parameters.AddWithValue("@userEmail", addUser_email.Text.Trim());
                                 cmd.Parameters.AddWithValue("@pass", Passwords.Hash(addUser_password.Text));
-                                cmd.Parameters.AddWithValue("@role", addUser_role.SelectedItem.ToString());
-                                cmd.Parameters.AddWithValue("@status", addUser_status.SelectedItem.ToString());
+                                cmd.Parameters.AddWithValue("@role", addUser_role.SelectedItem!.ToString());
+                                cmd.Parameters.AddWithValue("@status", addUser_status.SelectedItem!.ToString());
 
                                 DateTime today = DateTime.Today;
 

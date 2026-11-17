@@ -82,7 +82,7 @@ namespace RentalProject
             int printHeight = (int)(this.Height * scale);
 
             // Draw the form content twice to fill the A4 sheet
-            e.Graphics.DrawImage(bitmap, 0, 0, printWidth, printHeight);
+            e.Graphics!.DrawImage(bitmap, 0, 0, printWidth, printHeight);
             e.Graphics.DrawImage(bitmap, 0, printHeight, printWidth, printHeight);
         }
 

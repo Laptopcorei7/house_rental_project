@@ -12,19 +12,19 @@ namespace RentalProject
     {
 
         public int ID { get; set; }
-        public string BookID { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string ContactNum { get; set; }
-        public string Gender { get; set; }
-        public string HouseID { get; set; }
+        public string BookID { get; set; } = "";
+        public string FullName { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string ContactNum { get; set; } = "";
+        public string Gender { get; set; } = "";
+        public string HouseID { get; set; } = "";
         public decimal RentAmount { get; set; }
-        public string RentPlan { get; set; }
-        public string StatusPayment { get; set; }
-        public string Status { get; set; }
-        public DateTime DateStart { get; set; }
-        public DateTime DateEnd { get; set; }
-        public DateTime DateBook { get; set; }
+        public string RentPlan { get; set; } = "";
+        public string StatusPayment { get; set; } = "";
+        public string Status { get; set; } = "";
+        public DateTime? DateStart { get; set; }
+        public DateTime? DateEnd { get; set; }
+        public DateTime? DateBook { get; set; }
 
         public List<customers_data> customerDataList()
         {
@@ -45,19 +45,19 @@ namespace RentalProject
                         customers_data cData = new customers_data();
 
                         cData.ID = (int)reader["id"];
-                        cData.BookID = reader["book_id"].ToString();
-                        cData.FullName = reader["full_name"].ToString();
-                        cData.Email = reader["email"].ToString();
-                        cData.ContactNum = reader["contact"].ToString();
-                        cData.Gender = reader["gender"].ToString();
-                        cData.HouseID = reader["house_id"].ToString();
+                        cData.BookID = reader["book_id"].ToString() ?? "";
+                        cData.FullName = reader["full_name"].ToString() ?? "";
+                        cData.Email = reader["email"].ToString() ?? "";
+                        cData.ContactNum = reader["contact"].ToString() ?? "";
+                        cData.Gender = reader["gender"].ToString() ?? "";
+                        cData.HouseID = reader["house_id"].ToString() ?? "";
                         cData.RentAmount = reader.GetDecimal(reader.GetOrdinal("rent_amount"));
-                        cData.RentPlan = reader["rent_plan"].ToString();
-                        cData.StatusPayment =reader["status_payment"].ToString();
-                        cData.Status = reader["status"].ToString();
-                        cData.DateStart = reader.GetDateTime(reader.GetOrdinal("date_start"));
-                        cData.DateEnd = reader.GetDateTime(reader.GetOrdinal("date_end"));
-                        cData.DateBook = reader.GetDateTime(reader.GetOrdinal("date_book"));
+                        cData.RentPlan = reader["rent_plan"].ToString() ?? "";
+                        cData.StatusPayment =reader["status_payment"].ToString() ?? "";
+                        cData.Status = reader["status"].ToString() ?? "";
+                        cData.DateStart = reader["date_start"] as DateTime?;
+                        cData.DateEnd = reader["date_end"] as DateTime?;
+                        cData.DateBook = reader["date_book"] as DateTime?;
 
                         listData.Add(cData);
                     }

@@ -26,11 +26,6 @@ namespace RentalProject
             Application.Exit();
         }
 
-        private void login_password_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void login_showPass_CheckedChanged(object sender, EventArgs e)
         {
             login_password.PasswordChar = login_showPass.Checked ? '\0' : '*';

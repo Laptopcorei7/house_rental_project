@@ -20,7 +20,7 @@ namespace RentalProject
 
         private void close_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are You sure You want to exit?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to exit?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Application.Exit();
             }
@@ -28,7 +28,7 @@ namespace RentalProject
 
         private void logout_btn_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are You sure You want to Log Out?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to log out?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Close(); // the login form shows itself again when this form closes
             }

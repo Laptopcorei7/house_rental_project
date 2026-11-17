@@ -123,7 +123,7 @@ namespace RentalProject
 
                             if (table.Rows.Count > 0)
                             {
-                                MessageBox.Show(addHouse_ID.Text.Trim() + "is existing already.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("House ID " + addHouse_ID.Text.Trim() + " already exists.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                             else
                             {
@@ -147,7 +147,7 @@ namespace RentalProject
                                     cmd.Parameters.AddWithValue("@deposit", deposit);
                                     cmd.Parameters.AddWithValue("@path", path);
                                     cmd.Parameters.AddWithValue("@date_avail", addHouse_availableDate.Value);
-                                    cmd.Parameters.AddWithValue("@status", addHouse_status.SelectedItem.ToString());
+                                    cmd.Parameters.AddWithValue("@status", addHouse_status.SelectedItem!.ToString());
 
                                     cmd.ExecuteNonQuery();
 
@@ -165,7 +165,7 @@ namespace RentalProject
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error:" + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Program.ReportError(ex);
                 }
 
             }
@@ -191,7 +191,7 @@ namespace RentalProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex}", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ReportError(ex);
             }
 
 
@@ -236,7 +236,7 @@ namespace RentalProject
 
                             using (SqlCommand cmd = new SqlCommand(updateData, connect))
                             {
-                                cmd.Parameters.AddWithValue("id", id);
+                                cmd.Parameters.AddWithValue("@id", id);
                                 cmd.Parameters.AddWithValue("@path", path);
                                 cmd.Parameters.AddWithValue("@houseID", addHouse_ID.Text.Trim());
                                 cmd.Parameters.AddWithValue("@name", addHouse_name.Text.Trim());
@@ -248,7 +248,7 @@ namespace RentalProject
                                 cmd.Parameters.AddWithValue("@daily", dailyRent);
                                 cmd.Parameters.AddWithValue("@deposit", deposit);
                                 cmd.Parameters.AddWithValue("@date_avail", addHouse_availableDate.Value);
-                                cmd.Parameters.AddWithValue("@status", addHouse_status.SelectedItem.ToString());
+                                cmd.Parameters.AddWithValue("@status", addHouse_status.SelectedItem!.ToString());
 
                                 DateTime today = DateTime.Today;
                                 cmd.Parameters.AddWithValue("@update", today);
@@ -268,7 +268,7 @@ namespace RentalProject
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error:" + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Program.ReportError(ex);
                 }
 
             }
@@ -346,7 +346,7 @@ namespace RentalProject
 
                                 DateTime today = DateTime.Today;
                                 cmd.Parameters.AddWithValue("@delete", today);
-                                cmd.Parameters.AddWithValue("id", id);
+                                cmd.Parameters.AddWithValue("@id", id);
 
 
                                 cmd.ExecuteNonQuery();
@@ -363,7 +363,7 @@ namespace RentalProject
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error:" + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Program.ReportError(ex);
                 }
 
             }

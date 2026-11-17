@@ -25,7 +25,7 @@ namespace RentalProject
             Application.Run(new LoginFile());
         }
 
-        private static void ReportError(Exception ex)
+        internal static void ReportError(Exception ex)
         {
             try
             {

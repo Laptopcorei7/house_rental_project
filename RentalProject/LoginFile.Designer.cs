@@ -127,7 +127,6 @@
             login_password.PasswordChar = '*';
             login_password.Size = new Size(358, 33);
             login_password.TabIndex = 6;
-            login_password.TextChanged += login_password_TextChanged;
             // 
             // label4
             // 

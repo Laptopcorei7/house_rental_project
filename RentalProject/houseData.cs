@@ -12,18 +12,18 @@ namespace RentalProject
     internal class houseData
     {
         public int ID { get; set; }
-        public string HouseId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Address { get; set; }
+        public string HouseId { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Address { get; set; } = "";
         public int Bedrooms { get; set; }
         public int Bathrooms { get; set; }
         public decimal Rent { get; set; }
         public decimal DailyRent { get; set; }
         public decimal Deposit { get; set; }
-        public string Image { get; set; }
+        public string Image { get; set; } = "";
         public DateTime Date_Available { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = "";
         // Current and upcoming bookings, e.g. "28 Oct 2026 - 28 Dec 2026". Empty when none.
         public string BookedDates { get; set; } = "";
         // Move-out day of the booking running today, or null if nobody is in the house today.
@@ -55,18 +55,18 @@ namespace RentalProject
                             houseData hData = new houseData();
 
                             hData.ID = (int)reader["id"];
-                            hData.HouseId = reader["house_id"].ToString();
-                            hData.Name = reader["house_name"].ToString();
-                            hData.Description = reader["description"].ToString();
-                            hData.Address = reader["address"].ToString();
+                            hData.HouseId = reader["house_id"].ToString() ?? "";
+                            hData.Name = reader["house_name"].ToString() ?? "";
+                            hData.Description = reader["description"].ToString() ?? "";
+                            hData.Address = reader["address"].ToString() ?? "";
                             hData.Bedrooms = (int)reader["number_of_bedrooms"];
                             hData.Bathrooms = (int)reader["number_of_bathrooms"];
                             hData.Rent = reader.GetDecimal(reader.GetOrdinal("rent_amount"));
                             hData.Deposit = reader.GetDecimal(reader.GetOrdinal("deposit_amount"));
                             // GetFileName also handles older rows that stored a full path.
-                            hData.Image = Path.Combine(ImageFolder, Path.GetFileName(reader["image_path"].ToString()));
+                            hData.Image = Path.Combine(ImageFolder, Path.GetFileName(reader["image_path"].ToString() ?? ""));
                             hData.Date_Available = reader.GetDateTime(reader.GetOrdinal("date_available"));
-                            hData.Status = reader["status"].ToString();
+                            hData.Status = reader["status"].ToString() ?? "";
                             hData.DailyRent = reader.GetDecimal(reader.GetOrdinal("daily_rent"));
 
                             listData.Add(hData);
