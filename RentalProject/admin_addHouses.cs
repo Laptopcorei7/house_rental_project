@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.IO;
 using static RentalProject.houseData;
 
@@ -210,12 +210,25 @@ namespace RentalProject
                     if (MessageBox.Show("Are you sure you want to UPDATE ID: " + id + "?", "Confirmation Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        string? path = SaveImage();
-                        if (path == null) return;
-
                         using (SqlConnection connect = new SqlConnection(Db.ConnectionString))
                         {
                             connect.Open();
+
+                            // House IDs are unique; check first so the image of another house is not overwritten.
+                            using (SqlCommand check = new SqlCommand("SELECT 1 FROM addHouse WHERE house_id = @houseID AND id <> @id", connect))
+                            {
+                                check.Parameters.AddWithValue("@houseID", addHouse_ID.Text.Trim());
+                                check.Parameters.AddWithValue("@id", id);
+                                if (check.ExecuteScalar() != null)
+                                {
+                                    MessageBox.Show(addHouse_ID.Text.Trim() + " is already used by another house.",
+                                        "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+                            string? path = SaveImage();
+                            if (path == null) return;
 
                             string updateData = "UPDATE addhouse SET house_id = @houseID, house_name = @name, description = @description, address = @address, " +
                                 "number_of_bedrooms = @bedrooms, number_of_bathrooms = @bathrooms, rent_amount = @rent, daily_rent = @daily, deposit_amount = @deposit," +
